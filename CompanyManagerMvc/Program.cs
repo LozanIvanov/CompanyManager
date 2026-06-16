@@ -1,4 +1,6 @@
+using CompanyManager.Core.Interfaces;
 using CompanyManager.Infrastructure.Data;
+using CompanyManager.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,7 @@ builder.Services.AddControllersWithViews();
     options.UseSqlServer(
         builder.Configuration.GetConnectionString("DefaultConnection"));
  });
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 
 var app = builder.Build();
 
