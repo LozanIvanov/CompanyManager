@@ -1,3 +1,4 @@
+using CompanyManager.Application.Services;
 using CompanyManager.Core.Interfaces;
 using CompanyManager.Infrastructure.Data;
 using CompanyManager.Infrastructure.Repositories;
@@ -13,6 +14,7 @@ builder.Services.AddControllersWithViews();
         builder.Configuration.GetConnectionString("DefaultConnection"));
  });
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<EmployeeService>();
 
 var app = builder.Build();
 

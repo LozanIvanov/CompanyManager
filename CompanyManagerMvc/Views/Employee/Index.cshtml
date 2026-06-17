@@ -1,0 +1,25 @@
+﻿@model List<CompanyManager.Core.Models.Employee>
+
+<h1>Employees</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Salary</th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.Name</td>
+                <td>@employee.Salary</td>
+            </tr>
+        }
+    </tbody>
+</table>
