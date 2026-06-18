@@ -1,0 +1,26 @@
+﻿@model CompanyManager.Core.Models.Employee
+
+<h1>Create Employee</h1>
+
+<form asp-controller="Employee"
+      asp-action="Create"
+      method="post">
+
+    <div>
+        <label>Name:</label>
+        <input name="Name" />
+    </div>
+
+    <div>
+        <label>Salary:</label>
+        <input name="Salary" />
+    </div>
+
+    <div>
+        <label>DepartmentId:</label>
+        <input name="DepartmentId" />
+    </div>
+
+    <button type="submit">Create</button>
+
+</form>

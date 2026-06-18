@@ -1,4 +1,5 @@
 ﻿using CompanyManager.Application.Services;
+using CompanyManager.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyManagerMvc.Controllers;
@@ -17,5 +18,18 @@ public class EmployeeController : Controller
         var employees = await service.GetAllEmployeesAsync();
 
         return View(employees);
+    }
+    [HttpGet]
+    public IActionResult Create()
+    {
+
+        return View();
+    }
+    [HttpPost]
+    public async Task<IActionResult> Create(Employee employee)
+    {
+        await service.AddEmployeeAsync(employee);
+
+        return RedirectToAction("Index");
     }
 }
