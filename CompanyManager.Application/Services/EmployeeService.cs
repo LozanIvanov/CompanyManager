@@ -27,4 +27,15 @@ public class EmployeeService
     {
         return await repository.GetByIdAsync(id);
     }
+    public async Task DeleteEmployeeAsync(int id)
+    {
+        var employee = await repository.GetByIdAsync(id);
+
+        if (employee == null)
+        {
+            return;
+        }
+
+        await repository.DeleteAsync(employee);
+    }
 }

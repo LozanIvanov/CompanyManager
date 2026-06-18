@@ -8,9 +8,10 @@
             <th>Id</th>
             <th>Name</th>
             <th>Salary</th>
+            <th>Edit</th>
+            <th>Delete</th>
         </tr>
     </thead>
-
 
     <tbody>
         @foreach (var employee in Model)
@@ -19,7 +20,36 @@
                 <td>@employee.Id</td>
                 <td>@employee.Name</td>
                 <td>@employee.Salary</td>
+
+                <td>
+                    <a asp-controller="Employee"
+                       asp-action="Edit"
+                       asp-route-id="@employee.Id">
+                        Edit
+                    </a>
+                </td>
+
+                <td>
+                    <form asp-controller="Employee"
+                          asp-action="Delete"
+                          method="post">
+
+                        <input type="hidden"
+                               name="id"
+                               value="@employee.Id" />
+
+                        <button type="submit">Delete</button>
+
+                    </form>
+                </td>
             </tr>
         }
     </tbody>
 </table>
+
+<br />
+
+<a asp-controller="Employee"
+   asp-action="Create">
+    Create New Employee
+</a>

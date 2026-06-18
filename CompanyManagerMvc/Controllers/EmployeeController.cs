@@ -48,4 +48,12 @@ public class EmployeeController : Controller
         await service.UpdateEmployeeAsync(employee);
         return RedirectToAction("Index");
     }
+    
+    [HttpPost]
+    public async Task<IActionResult> Delete(int id)
+    {
+        await service.DeleteEmployeeAsync(id);
+        return RedirectToAction("Index");
+    }
+
 }
