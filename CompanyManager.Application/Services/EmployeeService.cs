@@ -19,4 +19,12 @@ public class EmployeeService
     {
         await repository.AddAsync(employee);
     }
+    public async Task UpdateEmployeeAsync(Employee employee)
+    {
+       await repository.UpdateAsync(employee);
+    }
+    public async Task<Employee?> GetEmployeeByIdAsync(int id)
+    {
+        return await repository.GetByIdAsync(id);
+    }
 }

@@ -32,4 +32,20 @@ public class EmployeeController : Controller
 
         return RedirectToAction("Index");
     }
+    [HttpGet]
+    public async Task<IActionResult> Edit(int id)
+    {
+        var employee = await service.GetEmployeeByIdAsync(id);
+        if (employee == null)
+        {
+            return NotFound();
+        }
+            return View(employee);
+    }
+    [HttpPost]
+    public async Task<IActionResult> Edit(Employee employee)
+    {
+        await service.UpdateEmployeeAsync(employee);
+        return RedirectToAction("Index");
+    }
 }

@@ -1,0 +1,28 @@
+﻿@model CompanyManager.Core.Models.Employee
+
+<h1>Edit Employee</h1>
+
+<form asp-controller="Employee"
+      asp-action="Edit"
+      method="post">
+
+      <input type="hidden"name="Id" value="@Model.Id" />
+
+    <div>
+        <label>Name:</label>
+        <input name="Name" value="@Model.Name" />
+    </div>
+
+    <div>
+        <label>Salary:</label>
+        <input name="Salary" value="@Model.Salary" />
+    </div>
+
+    <div>
+        <label>DepartmentId:</label>
+        <input name="DepartmentId" value="@Model.DepartmentId"/>
+    </div>
+
+    <button type="submit">Update</button>
+
+</form>
