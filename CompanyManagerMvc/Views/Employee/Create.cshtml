@@ -1,4 +1,4 @@
-﻿@model CompanyManager.Core.Models.Employee
+﻿@model CompanyManagerMvc.ViewModels.EmployeeFormViewModel
 
 <h1>Create Employee</h1>
 
@@ -8,17 +8,25 @@
 
     <div>
         <label>Name:</label>
-        <input name="Name" />
+        <input name="Employee.Name" />
     </div>
 
     <div>
         <label>Salary:</label>
-        <input name="Salary" />
+        <input name="Employee.Salary" />
     </div>
 
     <div>
-        <label>DepartmentId:</label>
-        <input name="DepartmentId" />
+        <label>Department:</label>
+        <select name="Employee.DepartmentId">
+            <option value="">Choose Sector</option>
+            @foreach (var department in Model.Departments)
+            {
+                <option value="@department.Id">
+                    @department.Name
+                </option>
+            }
+        </select>
     </div>
 
     <button type="submit">Create</button>

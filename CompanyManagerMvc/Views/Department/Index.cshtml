@@ -1,0 +1,49 @@
+﻿@model List<CompanyManager.Core.Models.Department>
+
+    <h1>Departments</h1>
+    <table class="table">
+        <thead>
+            <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Edit</th>
+            <th>Delete</th>
+            </tr>
+            
+        </thead>
+        <tbody>
+            @foreach (var department in Model)
+        {
+            <tr>
+                <td>@department.Id</td>
+                <td>@department.Name</td>
+                <td>
+                    <a asp-controller="Department"
+                    asp-action="Edit"
+                    asp-route-id="@department.Id">
+                        Edit
+                    </a>
+                </td>
+                <td>
+                    <form asp-controller="Department"
+                    asp-action="Delete"
+                    method="post">
+                        <input type="hidden"
+                               name="id"
+                               value="@department.Id" />
+
+                        <button type="submit">Delete</button>
+                        
+                    </form>
+                </td>
+            </tr>
+           
+        }
+        </tbody>
+    </table>
+<br />
+
+<a asp-controller="Department"
+   asp-action="Create">
+    Create New Department
+</a>

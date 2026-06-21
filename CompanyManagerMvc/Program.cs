@@ -14,7 +14,9 @@ builder.Services.AddControllersWithViews();
         builder.Configuration.GetConnectionString("DefaultConnection"));
  });
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 builder.Services.AddScoped<EmployeeService>();
+builder.Services.AddScoped<DepartmentService>();
 
 var app = builder.Build();
 

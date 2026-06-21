@@ -1,5 +1,6 @@
 ﻿using CompanyManager.Application.Services;
 using CompanyManager.Core.Models;
+using CompanyManagerMvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CompanyManagerMvc.Controllers;
@@ -7,10 +8,12 @@ namespace CompanyManagerMvc.Controllers;
 public class EmployeeController : Controller
 {
     private readonly EmployeeService service;
+    private readonly DepartmentService departmentService;
 
-    public EmployeeController(EmployeeService service)
+    public EmployeeController(EmployeeService service, DepartmentService departmentService)
     {
         this.service = service;
+        this.departmentService = departmentService;
     }
 
     public async Task<IActionResult> Index()
@@ -20,15 +23,20 @@ public class EmployeeController : Controller
         return View(employees);
     }
     [HttpGet]
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
 
-        return View();
+        var viewModel = new EmployeeFormViewModel
+        {
+            Departments = await departmentService.GetAllDepartmentAsync()
+        };
+
+        return View(viewModel);
     }
     [HttpPost]
-    public async Task<IActionResult> Create(Employee employee)
+    public async Task<IActionResult> Create(EmployeeFormViewModel viewModel)
     {
-        await service.AddEmployeeAsync(employee);
+        await service.AddEmployeeAsync(viewModel.Employee);
 
         return RedirectToAction("Index");
     }
