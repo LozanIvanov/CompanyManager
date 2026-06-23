@@ -1,28 +1,52 @@
 ﻿@model CompanyManager.Core.Models.Employee
 
-<h1>Edit Employee</h1>
+<div class="container">
 
-<form asp-controller="Employee"
-      asp-action="Edit"
-      method="post">
+    <h1>Edit Employee</h1>
 
-      <input type="hidden"name="Id" value="@Model.Id" />
+    <form asp-controller="Employee"
+          asp-action="Edit"
+          method="post">
 
-    <div>
-        <label>Name:</label>
-        <input name="Name" value="@Model.Name" />
-    </div>
+        <input type="hidden"
+               name="Id"
+               value="@Model.Id" />
 
-    <div>
-        <label>Salary:</label>
-        <input name="Salary" value="@Model.Salary" />
-    </div>
+        <div class="mb-3">
+            <label class="form-label">Name</label>
 
-    <div>
-        <label>DepartmentId:</label>
-        <input name="DepartmentId" value="@Model.DepartmentId"/>
-    </div>
+            <input name="Name"
+                   value="@Model.Name"
+                   class="form-control" />
+        </div>
 
-    <button type="submit">Update</button>
+        <div class="mb-3">
+            <label class="form-label">Salary</label>
 
-</form>
+            <input name="Salary"
+                   value="@Model.Salary"
+                   class="form-control" />
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Department Id</label>
+
+            <input name="DepartmentId"
+                   value="@Model.DepartmentId"
+                   class="form-control" />
+        </div>
+
+        <button type="submit"
+                class="btn btn-warning">
+            Update Employee
+        </button>
+
+        <a asp-controller="Employee"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Back
+        </a>
+
+    </form>
+
+</div>

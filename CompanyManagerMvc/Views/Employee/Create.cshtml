@@ -1,40 +1,58 @@
 ﻿@model CompanyManagerMvc.ViewModels.EmployeeFormViewModel
-
+<div class="container">
 <h1>Create Employee</h1>
 
 <form asp-controller="Employee"
       asp-action="Create"
       method="post">
 
-    <div>
-        <label>Name:</label>
-        <input name="Employee.Name" />
-        <span asp-validation-for="Employee.Name" class="text-danger"></span>
-        
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+
+        <input name="Employee.Name"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.Name"
+              class="text-danger"></span>
     </div>
 
-    <div>
-        <label>Salary:</label>
-        <input name="Employee.Salary" />
-        <span asp-validation-for="Employee.Salary" class="text-danger"></span>
-        
+    <div class="mb-3">
+        <label class="form-label">Salary</label>
+
+        <input name="Employee.Salary"
+               class="form-control" />
+
+        <span asp-validation-for="Employee.Salary"
+              class="text-danger"></span>
     </div>
 
-    <div>
-        <label>Department:</label>
-        <select name="Employee.DepartmentId">
-            <option value="0">Choose Sector</option>
+    <div class="mb-3">
+        <label class="form-label">Department</label>
+
+        <select name="Employee.DepartmentId"
+                class="form-select">
+
+            <option value="0">
+                Choose Sector
+            </option>
+
             @foreach (var department in Model.Departments)
             {
                 <option value="@department.Id">
                     @department.Name
                 </option>
             }
+
         </select>
-        <span asp-validation-for="Employee.DepartmentId" class="text-danger"></span>
-        
+
+        <span asp-validation-for="Employee.DepartmentId"
+              class="text-danger"></span>
     </div>
 
-    <button type="submit">Create</button>
+    <button type="submit"
+            class="btn btn-success">
+        Create Employee
+    </button>
 
 </form>
+</>
