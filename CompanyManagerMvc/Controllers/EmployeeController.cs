@@ -36,6 +36,13 @@ public class EmployeeController : Controller
     [HttpPost]
     public async Task<IActionResult> Create(EmployeeFormViewModel viewModel)
     {
+        if (!ModelState.IsValid)
+        {
+            viewModel.Departments =
+                await departmentService.GetAllDepartmentAsync();
+
+            return View(viewModel);
+        }
         await service.AddEmployeeAsync(viewModel.Employee);
 
         return RedirectToAction("Index");

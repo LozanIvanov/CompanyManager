@@ -9,17 +9,21 @@
     <div>
         <label>Name:</label>
         <input name="Employee.Name" />
+        <span asp-validation-for="Employee.Name" class="text-danger"></span>
+        
     </div>
 
     <div>
         <label>Salary:</label>
         <input name="Employee.Salary" />
+        <span asp-validation-for="Employee.Salary" class="text-danger"></span>
+        
     </div>
 
     <div>
         <label>Department:</label>
         <select name="Employee.DepartmentId">
-            <option value="">Choose Sector</option>
+            <option value="0">Choose Sector</option>
             @foreach (var department in Model.Departments)
             {
                 <option value="@department.Id">
@@ -27,6 +31,8 @@
                 </option>
             }
         </select>
+        <span asp-validation-for="Employee.DepartmentId" class="text-danger"></span>
+        
     </div>
 
     <button type="submit">Create</button>
