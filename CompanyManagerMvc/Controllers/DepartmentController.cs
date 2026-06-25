@@ -25,6 +25,10 @@ namespace CompanyManagerMvc.Controllers
         [HttpPost]
         public async Task<IActionResult>Create(Department department)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(department);
+            }
             await service.AddDepartmentAsync(department);
             return RedirectToAction("Index");
         }
@@ -41,6 +45,10 @@ namespace CompanyManagerMvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Edit(Department department)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(department);
+            }
             await service.UpdateDepartmentAsync(department);
             return RedirectToAction("Index");
         }

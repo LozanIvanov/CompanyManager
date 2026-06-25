@@ -20,3 +20,12 @@ html {
 body {
   margin-bottom: 60px;
 }
+.table-bordered,
+.table-bordered th,
+.table-bordered td {
+    border: 1px solid black;
+}
+.form-control {
+    border: 1px solid #444;
+    background-color: #f8f9fa;
+}
