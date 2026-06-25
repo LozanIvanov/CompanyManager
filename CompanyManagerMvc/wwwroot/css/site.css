@@ -29,3 +29,11 @@ body {
     border: 1px solid #444;
     background-color: #f8f9fa;
 }
+.dashboard-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+    .dashboard-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 1rem 2rem rgba(0, 0, 0, 0.15);
+    }

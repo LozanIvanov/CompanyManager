@@ -16,6 +16,10 @@ namespace CompanyManager.Application.Services
         {
             this.repository = repository;
         }
+        public async Task<int> GetDepartmentCountAsync()
+        {
+            return await repository.GetCountAsync();
+        }
         public async Task<List<Department>>GetAllDepartmentAsync()
         {
             return await repository.GetAllAsync();

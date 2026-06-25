@@ -9,6 +9,7 @@ namespace CompanyManager.Core.Interfaces
 {
     public interface IDepartmentRepository
     {
+        Task<int> GetCountAsync();
         Task<List<Department>> GetAllAsync();
 
         Task<Department?> GetByIdAsync(int id);

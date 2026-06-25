@@ -18,7 +18,10 @@ namespace CompanyManager.Infrastructure.Repositories
         {
             this.context = context;
         }
-       
+       public async Task<int> GetCountAsync()
+        {
+            return await context.Departments.CountAsync();
+        }
         public async Task AddAsync(Department department)
         {
             context.Departments.Add(department);

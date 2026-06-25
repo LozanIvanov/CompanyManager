@@ -13,7 +13,10 @@ public class EmployeeRepository : IEmployeeRepository
     {
         this.context = context;
     }
-
+    public async Task<int> GetCountAsync()
+    {
+        return await context.Employees.CountAsync();
+    }
     public async Task<List<Employee>> GetAllAsync()
     {
         return await context.Employees

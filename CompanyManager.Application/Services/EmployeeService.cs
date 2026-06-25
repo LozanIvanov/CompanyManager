@@ -11,6 +11,10 @@ public class EmployeeService
     {
         this.repository = repository;
     }
+    public async Task<int> GetEmployeeCountAsync()
+    {
+        return await repository.GetCountAsync();
+    }
     public async Task<List<Employee>> GetAllEmployeesAsync()
     {
         return await repository.GetAllAsync();
