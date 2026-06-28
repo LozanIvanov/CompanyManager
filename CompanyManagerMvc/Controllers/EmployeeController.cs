@@ -16,11 +16,22 @@ public class EmployeeController : Controller
         this.departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index()
+    public async Task<IActionResult> Index(string? searchText)
     {
-        var employees = await service.GetAllEmployeesAsync();
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            var employees = await service.GetAllEmployeesAsync();
+            ViewBag.SearchText = searchText;
 
-        return View(employees);
+            return View(employees);
+        }
+        else
+        {
+            var employees=await service.SearchByNameAsync(searchText);
+            ViewBag.SearchText = searchText;
+            return View(employees);
+        }
+          
     }
     [HttpGet]
     public async Task<IActionResult> Create()

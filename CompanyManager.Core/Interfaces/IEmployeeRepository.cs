@@ -9,6 +9,7 @@ namespace CompanyManager.Core.Interfaces
 {
     public interface IEmployeeRepository
     {
+        Task<List<Employee>> SearchByNameAsync(string searchText);
         Task<int> GetCountAsync();
         Task<List<Employee>> GetAllAsync();
 

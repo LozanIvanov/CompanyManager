@@ -15,6 +15,10 @@ public class EmployeeService
     {
         return await repository.GetCountAsync();
     }
+    public async Task<List<Employee>> SearchByNameAsync(string searchText)
+    {
+        return await repository.SearchByNameAsync(searchText);
+    }
     public async Task<List<Employee>> GetAllEmployeesAsync()
     {
         return await repository.GetAllAsync();
