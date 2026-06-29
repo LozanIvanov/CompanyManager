@@ -19,6 +19,14 @@ public class EmployeeService
     {
         return await repository.SearchByNameAsync(searchText);
     }
+    public async Task<List<Employee>> FilterByDepartmentAsync(int departmentId)
+    {
+        return await repository.FilterByDepartmentAsync(departmentId);
+    }
+    public async Task<List<Employee>> SearchByNameAndDepartmentAsync(string searchText, int departmentId)
+    {
+        return await repository.SearchByNameAndDepartmentAsync(searchText, departmentId);
+    }
     public async Task<List<Employee>> GetAllEmployeesAsync()
     {
         return await repository.GetAllAsync();

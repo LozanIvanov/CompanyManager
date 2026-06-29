@@ -17,6 +17,18 @@ public class EmployeeRepository : IEmployeeRepository
     {
         return context.Employees.Include(e => e.Department).Where(x=>x.Name.Contains(searchText)).ToListAsync();
      }
+    public Task<List<Employee>> FilterByDepartmentAsync(int departmentId)
+    {
+        return context.Employees.Include(x=>x.Department).Where(x=>x.DepartmentId==departmentId).ToListAsync();
+    }
+    public Task<List<Employee>> SearchByNameAndDepartmentAsync(string searchText, int departmentId)
+    {
+        return context.Employees
+            .Include(e => e.Department)
+            .Where(e => e.Name.Contains(searchText)
+                     && e.DepartmentId == departmentId)
+            .ToListAsync();
+    }
     public async Task<int> GetCountAsync()
     {
         return await context.Employees.CountAsync();

@@ -16,22 +16,35 @@ public class EmployeeController : Controller
         this.departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index(string? searchText)
+    public async Task<IActionResult> Index(string? searchText, int? departmentId)
     {
-        if (string.IsNullOrWhiteSpace(searchText))
+        var model = new EmployeeIndexViewModel
         {
-            var employees = await service.GetAllEmployeesAsync();
-            ViewBag.SearchText = searchText;
+            Departments = await departmentService.GetAllDepartmentAsync(),
+            SearchText = searchText,
+            SelectedDepartmentId = departmentId
+        };
 
-            return View(employees);
+        if (string.IsNullOrWhiteSpace(searchText) && departmentId == null)
+        {
+            model.Employees = await service.GetAllEmployeesAsync();
+        }
+        else if (string.IsNullOrWhiteSpace(searchText) && departmentId != null)
+        {
+            model.Employees = await service.FilterByDepartmentAsync(departmentId.Value);
+        }
+        else if (!string.IsNullOrWhiteSpace(searchText) && departmentId != null)
+        {
+            model.Employees = await service.SearchByNameAndDepartmentAsync(
+                searchText,
+                departmentId.Value);
         }
         else
         {
-            var employees=await service.SearchByNameAsync(searchText);
-            ViewBag.SearchText = searchText;
-            return View(employees);
+            model.Employees = await service.SearchByNameAsync(searchText);
         }
-          
+
+        return View(model);
     }
     [HttpGet]
     public async Task<IActionResult> Create()
