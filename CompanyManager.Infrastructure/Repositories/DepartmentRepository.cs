@@ -22,6 +22,10 @@ namespace CompanyManager.Infrastructure.Repositories
         {
             return await context.Departments.CountAsync();
         }
+        public Task<List<Department>> SearchByNameAsync(string searchText)
+        {
+         return context.Departments.Where(x=>x.Name.Contains(searchText)).ToListAsync();    
+        }
         public async Task AddAsync(Department department)
         {
             context.Departments.Add(department);

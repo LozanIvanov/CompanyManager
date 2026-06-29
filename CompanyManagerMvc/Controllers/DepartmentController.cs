@@ -12,9 +12,20 @@ namespace CompanyManagerMvc.Controllers
         {
             this.service = service;
         }
-        public async Task <IActionResult> Index()
+        public async Task <IActionResult> Index(string? searchText)
         {
-            var departments=await service.GetAllDepartmentAsync();
+            List<Department> departments;
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                departments = await service.GetAllDepartmentAsync();
+              
+            }
+            else
+            {
+                departments=await service.SearchByNameAsync(searchText);
+                  
+            }
+            ViewBag.SearchText = searchText;
             return View(departments);
         }
         [HttpGet]

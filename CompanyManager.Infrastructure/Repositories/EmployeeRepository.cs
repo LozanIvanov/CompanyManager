@@ -13,9 +13,9 @@ public class EmployeeRepository : IEmployeeRepository
     {
         this.context = context;
     }
-    public async Task<List<Employee>> SearchByNameAsync(string searchText)
+    public  Task<List<Employee>> SearchByNameAsync(string searchText)
     {
-        return await context.Employees.Include(e => e.Department).Where(x=>x.Name.Contains(searchText)).ToListAsync();
+        return context.Employees.Include(e => e.Department).Where(x=>x.Name.Contains(searchText)).ToListAsync();
      }
     public async Task<int> GetCountAsync()
     {

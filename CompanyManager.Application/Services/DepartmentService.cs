@@ -20,6 +20,10 @@ namespace CompanyManager.Application.Services
         {
             return await repository.GetCountAsync();
         }
+        public async  Task<List<Department>> SearchByNameAsync(string searchText)
+        {
+            return await repository.SearchByNameAsync(searchText);
+        }
         public async Task<List<Department>>GetAllDepartmentAsync()
         {
             return await repository.GetAllAsync();
