@@ -9,9 +9,11 @@ namespace CompanyManager.Core.Interfaces
 {
     public interface IEmployeeRepository
     {
-        Task<List<Employee>> SearchByNameAndDepartmentAsync(string searchText, int departmentId);
-        Task<List<Employee>> SearchByNameAsync(string searchText);
-        Task<List<Employee>> FilterByDepartmentAsync(int departmentId);
+        Task<List<Employee>> GetEmployeesAsync(
+    string? searchText,
+    int? departmentId,
+    string? sortOrder);
+       
         Task<int> GetCountAsync();
         Task<List<Employee>> GetAllAsync();
 
@@ -22,5 +24,6 @@ namespace CompanyManager.Core.Interfaces
         Task UpdateAsync(Employee employee);
 
         Task DeleteAsync(Employee employee);
+
     }
 }

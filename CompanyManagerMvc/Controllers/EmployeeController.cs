@@ -16,33 +16,25 @@ public class EmployeeController : Controller
         this.departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index(string? searchText, int? departmentId)
+    public async Task<IActionResult> Index(string? searchText, int? departmentId, string? sortOrder)
     {
         var model = new EmployeeIndexViewModel
         {
             Departments = await departmentService.GetAllDepartmentAsync(),
             SearchText = searchText,
-            SelectedDepartmentId = departmentId
+            SelectedDepartmentId = departmentId,
+            SortOrder = sortOrder
         };
+        model.NameSort = sortOrder == "name" ? "name_desc" : "name";
 
-        if (string.IsNullOrWhiteSpace(searchText) && departmentId == null)
-        {
-            model.Employees = await service.GetAllEmployeesAsync();
-        }
-        else if (string.IsNullOrWhiteSpace(searchText) && departmentId != null)
-        {
-            model.Employees = await service.FilterByDepartmentAsync(departmentId.Value);
-        }
-        else if (!string.IsNullOrWhiteSpace(searchText) && departmentId != null)
-        {
-            model.Employees = await service.SearchByNameAndDepartmentAsync(
-                searchText,
-                departmentId.Value);
-        }
-        else
-        {
-            model.Employees = await service.SearchByNameAsync(searchText);
-        }
+        model.SalarySort = sortOrder == "salary" ? "salary_desc" : "salary";
+
+        model.DepartmentSort = sortOrder == "department" ? "department_desc" : "department";
+        model.Employees = await service.GetEmployeesAsync(
+    searchText,
+    departmentId,
+    sortOrder);
+     
 
         return View(model);
     }

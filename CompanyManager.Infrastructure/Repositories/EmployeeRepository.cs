@@ -13,22 +13,45 @@ public class EmployeeRepository : IEmployeeRepository
     {
         this.context = context;
     }
-    public  Task<List<Employee>> SearchByNameAsync(string searchText)
+    public async Task<List<Employee>> GetEmployeesAsync(
+    string? searchText,
+    int? departmentId,
+    string? sortOrder)
     {
-        return context.Employees.Include(e => e.Department).Where(x=>x.Name.Contains(searchText)).ToListAsync();
-     }
-    public Task<List<Employee>> FilterByDepartmentAsync(int departmentId)
-    {
-        return context.Employees.Include(x=>x.Department).Where(x=>x.DepartmentId==departmentId).ToListAsync();
-    }
-    public Task<List<Employee>> SearchByNameAndDepartmentAsync(string searchText, int departmentId)
-    {
-        return context.Employees
+        var query = context.Employees
             .Include(e => e.Department)
-            .Where(e => e.Name.Contains(searchText)
-                     && e.DepartmentId == departmentId)
-            .ToListAsync();
+            .AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            query = query.Where(e => e.Name.Contains(searchText));
+        }
+
+        if (departmentId != null)
+        {
+            query = query.Where(e => e.DepartmentId == departmentId.Value);
+        }
+
+        query = sortOrder switch
+        {
+            "name" => query.OrderBy(e => e.Name),
+
+            "name_desc" => query.OrderByDescending(e => e.Name),
+
+            "salary" => query.OrderBy(e => e.Salary),
+
+            "salary_desc" => query.OrderByDescending(e => e.Salary),
+
+            "department" => query.OrderBy(e => e.Department!.Name),
+
+            "department_desc" => query.OrderByDescending(e => e.Department!.Name),
+
+            _ => query.OrderBy(e => e.Id)
+        };
+
+        return await query.ToListAsync();
     }
+  
     public async Task<int> GetCountAsync()
     {
         return await context.Employees.CountAsync();

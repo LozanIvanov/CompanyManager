@@ -87,9 +87,30 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
-                <th>Salary</th>
-                <th>Department</th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@Model.NameSort"
+                           asp-route-searchText="@Model.SearchText"
+                           asp-route-departmentId="@Model.SelectedDepartmentId">
+                            Name
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@Model.SalarySort"
+                           asp-route-searchText="@Model.SearchText"
+                           asp-route-departmentId="@Model.SelectedDepartmentId">
+                            Salary
+                        </a>
+                    </th>
+                    <th>
+                        <a asp-action="Index"
+                           asp-route-sortOrder="@Model.DepartmentSort"
+                           asp-route-searchText="@Model.SearchText"
+                           asp-route-departmentId="@Model.SelectedDepartmentId">
+                            Department
+                        </a>
+                    </th>
                 <th>Edit</th>
                 <th>Delete</th>
             </tr>

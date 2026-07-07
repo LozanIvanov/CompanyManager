@@ -7,6 +7,16 @@ public class EmployeeService
 {
     private readonly IEmployeeRepository repository;
 
+    public Task<List<Employee>> GetEmployeesAsync(
+    string? searchText,
+    int? departmentId,
+    string? sortOrder)
+    {
+        return repository.GetEmployeesAsync(
+            searchText,
+            departmentId,
+            sortOrder);
+    }
     public EmployeeService(IEmployeeRepository repository)
     {
         this.repository = repository;
@@ -15,18 +25,7 @@ public class EmployeeService
     {
         return await repository.GetCountAsync();
     }
-    public async Task<List<Employee>> SearchByNameAsync(string searchText)
-    {
-        return await repository.SearchByNameAsync(searchText);
-    }
-    public async Task<List<Employee>> FilterByDepartmentAsync(int departmentId)
-    {
-        return await repository.FilterByDepartmentAsync(departmentId);
-    }
-    public async Task<List<Employee>> SearchByNameAndDepartmentAsync(string searchText, int departmentId)
-    {
-        return await repository.SearchByNameAndDepartmentAsync(searchText, departmentId);
-    }
+   
     public async Task<List<Employee>> GetAllEmployeesAsync()
     {
         return await repository.GetAllAsync();
