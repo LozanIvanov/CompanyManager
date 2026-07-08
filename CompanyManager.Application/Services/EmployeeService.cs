@@ -10,12 +10,14 @@ public class EmployeeService
     public Task<List<Employee>> GetEmployeesAsync(
     string? searchText,
     int? departmentId,
-    string? sortOrder)
+    string? sortOrder, int page,
+    int pageSize)
     {
         return repository.GetEmployeesAsync(
             searchText,
             departmentId,
-            sortOrder);
+            sortOrder, page,
+    pageSize);
     }
     public EmployeeService(IEmployeeRepository repository)
     {
@@ -25,7 +27,15 @@ public class EmployeeService
     {
         return await repository.GetCountAsync();
     }
-   
+    public Task<int> GetEmployeesCountAsync(
+    string? searchText,
+    int? departmentId)
+    {
+        return repository.GetEmployeesCountAsync(
+            searchText,
+            departmentId);
+    }
+
     public async Task<List<Employee>> GetAllEmployeesAsync()
     {
         return await repository.GetAllAsync();

@@ -12,8 +12,13 @@ namespace CompanyManager.Core.Interfaces
         Task<List<Employee>> GetEmployeesAsync(
     string? searchText,
     int? departmentId,
-    string? sortOrder);
-       
+    string? sortOrder,
+    int page,
+    int pageSize);
+        Task<int> GetEmployeesCountAsync(
+    string? searchText,
+    int? departmentId);
+
         Task<int> GetCountAsync();
         Task<List<Employee>> GetAllAsync();
 

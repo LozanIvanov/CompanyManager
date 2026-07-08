@@ -16,7 +16,12 @@ public class EmployeeController : Controller
         this.departmentService = departmentService;
     }
 
-    public async Task<IActionResult> Index(string? searchText, int? departmentId, string? sortOrder)
+    public async Task<IActionResult> Index(
+     string? searchText,
+     int? departmentId,
+     string? sortOrder,
+     int page = 1,
+     int pageSize = 4)
     {
         var model = new EmployeeIndexViewModel
         {
@@ -25,16 +30,27 @@ public class EmployeeController : Controller
             SelectedDepartmentId = departmentId,
             SortOrder = sortOrder
         };
+
         model.NameSort = sortOrder == "name" ? "name_desc" : "name";
-
         model.SalarySort = sortOrder == "salary" ? "salary_desc" : "salary";
-
         model.DepartmentSort = sortOrder == "department" ? "department_desc" : "department";
+
         model.Employees = await service.GetEmployeesAsync(
-    searchText,
-    departmentId,
-    sortOrder);
-     
+            searchText,
+            departmentId,
+            sortOrder,
+            page,
+            pageSize);
+
+        model.CurrentPage = page;
+        model.PageSize = pageSize;
+
+        model.TotalItems = await service.GetEmployeesCountAsync(
+            searchText,
+            departmentId);
+
+        model.TotalPages = (int)Math.Ceiling(
+            (double)model.TotalItems / pageSize);
 
         return View(model);
     }

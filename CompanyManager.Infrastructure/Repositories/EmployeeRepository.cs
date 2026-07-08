@@ -16,7 +16,8 @@ public class EmployeeRepository : IEmployeeRepository
     public async Task<List<Employee>> GetEmployeesAsync(
     string? searchText,
     int? departmentId,
-    string? sortOrder)
+    string? sortOrder, int page,
+    int pageSize)
     {
         var query = context.Employees
             .Include(e => e.Department)
@@ -49,7 +50,8 @@ public class EmployeeRepository : IEmployeeRepository
             _ => query.OrderBy(e => e.Id)
         };
 
-        return await query.ToListAsync();
+        return await query.Skip((page - 1) * pageSize)
+    .Take(pageSize).ToListAsync();
     }
   
     public async Task<int> GetCountAsync()
@@ -89,5 +91,23 @@ public class EmployeeRepository : IEmployeeRepository
         context.Employees.Remove(employee);
 
         await context.SaveChangesAsync();
+    }
+    public async Task<int> GetEmployeesCountAsync(
+    string? searchText,
+    int? departmentId)
+    {
+        var query = context.Employees.AsQueryable();
+
+        if (!string.IsNullOrWhiteSpace(searchText))
+        {
+            query = query.Where(e => e.Name.Contains(searchText));
+        }
+
+        if (departmentId != null)
+        {
+            query = query.Where(e => e.DepartmentId == departmentId.Value);
+        }
+
+        return await query.CountAsync();
     }
 }
