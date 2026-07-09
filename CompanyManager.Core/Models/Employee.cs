@@ -10,8 +10,8 @@ namespace CompanyManager.Core.Models
     public class Employee
     {
         public int Id { get; set; }
-        [Required(ErrorMessage = "Name is required")]
-        [StringLength(50)]
+        [Required]
+        [StringLength(50, ErrorMessage = "Name cannot be longer than 50 characters.")]
         public string Name { get; set; } = string.Empty;
         [Range(1, 100000, ErrorMessage = "Salary must be greater than 0")]
         public decimal Salary { get; set; }

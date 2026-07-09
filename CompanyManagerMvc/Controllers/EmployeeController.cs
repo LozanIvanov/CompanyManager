@@ -102,5 +102,17 @@ public class EmployeeController : Controller
         await service.DeleteEmployeeAsync(id);
         return RedirectToAction("Index");
     }
+    [HttpGet]
+    public async Task<IActionResult> Details(int id)
+    {
+        var employee = await service.GetEmployeeByIdAsync(id);
+
+        if (employee == null)
+        {
+            return NotFound();
+        }
+
+        return View(employee);
+    }
 
 }
