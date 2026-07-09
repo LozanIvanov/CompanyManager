@@ -18,7 +18,11 @@ namespace CompanyManager.Core.Interfaces
         Task<int> GetEmployeesCountAsync(
     string? searchText,
     int? departmentId);
+        Task<decimal> GetAverageSalaryAsync();
+        Task<decimal> GetHighestSalaryAsync();
 
+        Task<decimal> GetLowestSalaryAsync();
+        Task<decimal> GetTotalSalaryAsync();
         Task<int> GetCountAsync();
         Task<List<Employee>> GetAllAsync();
 

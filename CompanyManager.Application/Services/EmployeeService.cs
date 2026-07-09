@@ -19,6 +19,22 @@ public class EmployeeService
             sortOrder, page,
     pageSize);
     }
+    public async Task<decimal> GetAverageSalaryAsync()
+    {
+        return await repository.GetAverageSalaryAsync();
+    }
+    public async Task<decimal> GetHighestSalaryAsync()
+    {
+        return await repository.GetHighestSalaryAsync();
+    }
+    public async Task<decimal> GetLowestSalaryAsync()
+    {
+        return await repository.GetLowestSalaryAsync();
+    }
+    public async Task<decimal>GetTotalSalaryAsync()
+    {
+        return await repository.GetTotalSalaryAsync();
+    }
     public EmployeeService(IEmployeeRepository repository)
     {
         this.repository = repository;

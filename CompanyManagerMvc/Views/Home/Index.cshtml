@@ -57,5 +57,44 @@
         }
 
     </div>
+    <div class="row justify-content-center mt-5 g-4">
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 text-center h-100">
+                <div class="card-body">
+                    <h5>Average Salary</h5>
+                    <h3>@Model.AverageSalary.ToString("F2")</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 text-center h-100">
+                <div class="card-body">
+                    <h5>Highest Salary</h5>
+                    <h3>@Model.HighestSalary.ToString("F2")</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 text-center h-100">
+                <div class="card-body">
+                    <h5>Lowest Salary</h5>
+                    <h3>@Model.LowestSalary.ToString("F2")</h3>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card shadow border-0 text-center h-100">
+                <div class="card-body">
+                    <h5>Total Salary</h5>
+                    <h3>@Model.TotalSalary.ToString("F2")</h3>
+                </div>
+            </div>
+        </div>
+
+    </div>
 
 </div>

@@ -23,6 +23,7 @@ public class EmployeeController : Controller
      int page = 1,
      int pageSize = 4)
     {
+       
         var model = new EmployeeIndexViewModel
         {
             Departments = await departmentService.GetAllDepartmentAsync(),
@@ -30,7 +31,7 @@ public class EmployeeController : Controller
             SelectedDepartmentId = departmentId,
             SortOrder = sortOrder
         };
-
+      
         model.NameSort = sortOrder == "name" ? "name_desc" : "name";
         model.SalarySort = sortOrder == "salary" ? "salary_desc" : "salary";
         model.DepartmentSort = sortOrder == "department" ? "department_desc" : "department";

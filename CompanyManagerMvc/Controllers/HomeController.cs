@@ -20,8 +20,13 @@ namespace CompanyManagerMvc.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var averageSalary = await employeeService.GetAverageSalaryAsync();
             var employeeCount = await employeeService.GetEmployeeCountAsync();
             var departmentCount = await departmentService.GetDepartmentCountAsync();
+            var highestSalary = await employeeService.GetHighestSalaryAsync();
+            var lowestSalary = await employeeService.GetLowestSalaryAsync();
+            var totalSalary = await employeeService.GetTotalSalaryAsync();
+
             var model = new HomeViewModel();
             model.Cards.Add(new DashboardCardViewModel
             {
@@ -41,6 +46,10 @@ namespace CompanyManagerMvc.Controllers
                 Icon = "bi bi-building",
                 ButtonClass = "btn-success"
             });
+            model.AverageSalary= averageSalary;
+            model.HighestSalary= highestSalary;
+            model.LowestSalary= lowestSalary;
+            model.TotalSalary= totalSalary;
             return View(model);
   
         }

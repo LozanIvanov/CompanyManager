@@ -53,7 +53,41 @@ public class EmployeeRepository : IEmployeeRepository
         return await query.Skip((page - 1) * pageSize)
     .Take(pageSize).ToListAsync();
     }
-  
+    public async Task<decimal> GetAverageSalaryAsync()
+    {
+        if (!await context.Employees.AnyAsync())
+        {
+            return 0;
+        }
+
+        return await context.Employees.AverageAsync(e => e.Salary);
+    }
+    public async Task<decimal> GetHighestSalaryAsync()
+    {
+        if (!await context.Employees.AnyAsync())
+        {
+            return 0;
+        }
+
+        return await context.Employees.MaxAsync(e => e.Salary);
+    }
+    public async Task<decimal> GetLowestSalaryAsync()
+    {
+        if(!await context.Employees.AnyAsync())
+        {
+            return 0;
+        }
+        return await context.Employees.MinAsync(e => e.Salary);
+    }
+    public async Task<decimal>GetTotalSalaryAsync()
+    {
+        if(!await context.Employees.AnyAsync())
+        {
+            return 0;
+        }
+        return await context.Employees.SumAsync(e => e.Salary);
+    }
+
     public async Task<int> GetCountAsync()
     {
         return await context.Employees.CountAsync();
