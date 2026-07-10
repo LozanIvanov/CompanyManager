@@ -11,6 +11,7 @@ namespace CompanyManager.Core.Interfaces
     {
         Task<int> GetCountAsync();
         Task<List<Department>> SearchByNameAsync(string searchText);
+        Task<Department?>GetDepartmentByIdAsync(int id);
         Task<List<Department>> GetAllAsync();
 
         Task<Department?> GetByIdAsync(int id);

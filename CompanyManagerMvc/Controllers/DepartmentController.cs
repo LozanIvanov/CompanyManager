@@ -70,6 +70,16 @@ namespace CompanyManagerMvc.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpGet]
+        public async Task<IActionResult>Details(int id)
+        {
+            var department= await service.GetDepartmentByIdAsync(id);
+            if(department == null)
+            {
+                return NotFound();
+            }
+            return View(department);
+        }
 
     }
 }
