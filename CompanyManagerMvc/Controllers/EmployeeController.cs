@@ -96,11 +96,25 @@ public class EmployeeController : Controller
         await service.UpdateEmployeeAsync(employee);
         return RedirectToAction("Index");
     }
-    
-    [HttpPost]
+    [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
+        var employee = await service.GetEmployeeByIdAsync(id);
+
+        if (employee == null)
+        {
+            return NotFound();
+        }
+
+        return View(employee);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
         await service.DeleteEmployeeAsync(id);
+
         return RedirectToAction("Index");
     }
     [HttpGet]

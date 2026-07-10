@@ -153,22 +153,14 @@
                         </td>
 
                         <td>
-                            <form asp-controller="Employee"
-                                  asp-action="Delete"
-                                  method="post">
-
-                                <input type="hidden"
-                                       name="id"
-                                       value="@employee.Id" />
-
-                                <button type="submit"
-                                        class="btn btn-danger"
-                                        style="width:100px">
-                                    <i class="bi bi-trash"></i>
-                                    Delete
-                                </button>
-
-                            </form>
+                            <a asp-controller="Employee"
+                               asp-action="Delete"
+                               asp-route-id="@employee.Id"
+                               class="btn btn-danger"
+                               style="width:100px">
+                                <i class="bi bi-trash"></i>
+                                Delete
+                            </a>
                         </td>
                     </tr>
                 }
