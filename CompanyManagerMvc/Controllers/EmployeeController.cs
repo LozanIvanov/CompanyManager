@@ -2,6 +2,7 @@
 using CompanyManager.Core.Models;
 using CompanyManagerMvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 
 namespace CompanyManagerMvc.Controllers;
 
@@ -23,7 +24,7 @@ public class EmployeeController : Controller
      int page = 1,
      int pageSize = 4)
     {
-       
+
         var model = new EmployeeIndexViewModel
         {
             Departments = await departmentService.GetAllDepartmentAsync(),
@@ -31,7 +32,7 @@ public class EmployeeController : Controller
             SelectedDepartmentId = departmentId,
             SortOrder = sortOrder
         };
-      
+
         model.NameSort = sortOrder == "name" ? "name_desc" : "name";
         model.SalarySort = sortOrder == "salary" ? "salary_desc" : "salary";
         model.DepartmentSort = sortOrder == "department" ? "department_desc" : "department";
@@ -55,6 +56,7 @@ public class EmployeeController : Controller
 
         return View(model);
     }
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> Create()
     {
@@ -66,6 +68,7 @@ public class EmployeeController : Controller
 
         return View(viewModel);
     }
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Create(EmployeeFormViewModel viewModel)
     {
@@ -77,9 +80,10 @@ public class EmployeeController : Controller
             return View(viewModel);
         }
         await service.AddEmployeeAsync(viewModel.Employee);
-
+        TempData["Success"] = "Employee created successfully.";
         return RedirectToAction("Index");
     }
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> Edit(int id)
     {
@@ -88,14 +92,17 @@ public class EmployeeController : Controller
         {
             return NotFound();
         }
-            return View(employee);
+        return View(employee);
     }
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> Edit(Employee employee)
     {
         await service.UpdateEmployeeAsync(employee);
+        TempData["Success"] = "Employee updated successfully.";
         return RedirectToAction("Index");
     }
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> Delete(int id)
     {
@@ -108,13 +115,13 @@ public class EmployeeController : Controller
 
         return View(employee);
     }
-
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         await service.DeleteEmployeeAsync(id);
-
+        TempData["Success"] = "Employee deleted successfully.";
         return RedirectToAction("Index");
     }
     [HttpGet]
