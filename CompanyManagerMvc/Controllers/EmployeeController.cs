@@ -2,6 +2,7 @@
 using CompanyManager.Core.Models;
 using CompanyManagerMvc.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using ClosedXML.Excel;
 using Microsoft.AspNetCore.Authorization;
 
 namespace CompanyManagerMvc.Controllers;
@@ -135,6 +136,53 @@ public class EmployeeController : Controller
         }
 
         return View(employee);
+    }
+    [Authorize(Roles = "Admin")]
+    [HttpGet]
+    public async Task<IActionResult> ExportToExcel()
+    {
+        var employees = await service.GetEmployeesAsync(
+            searchText: null,
+            departmentId: null,
+            sortOrder: "name",
+            page: 1,
+            pageSize: int.MaxValue);
+
+        using var workbook = new XLWorkbook();
+
+        var worksheet = workbook.Worksheets.Add("Employees");
+
+        worksheet.Cell(1, 1).Value = "Id";
+        worksheet.Cell(1, 2).Value = "Name";
+        worksheet.Cell(1, 3).Value = "Salary";
+        worksheet.Cell(1, 4).Value = "Department";
+
+        int row = 2;
+
+        foreach (var employee in employees)
+        {
+            worksheet.Cell(row, 1).Value = employee.Id;
+            worksheet.Cell(row, 2).Value = employee.Name;
+            worksheet.Cell(row, 3).Value = employee.Salary;
+            worksheet.Cell(row, 4).Value =
+                employee.Department?.Name ?? "No Department";
+
+            row++;
+        }
+
+        worksheet.Range(1, 1, 1, 4)
+            .Style.Font.Bold = true;
+
+        worksheet.Columns().AdjustToContents();
+
+        using var stream = new MemoryStream();
+
+        workbook.SaveAs(stream);
+
+        return File(
+            stream.ToArray(),
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "Employees.xlsx");
     }
 
 }
