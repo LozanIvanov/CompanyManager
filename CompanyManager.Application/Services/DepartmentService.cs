@@ -53,5 +53,9 @@ namespace CompanyManager.Application.Services
             }
             await repository.DeleteAsync(department);
         }
+        public Task<List<DepartmentEmployeeCount>>GetEmployeeCountByDepartmentAsync()
+        {
+            return repository.GetEmployeeCountByDepartmentAsync();
+        }
     }
 }

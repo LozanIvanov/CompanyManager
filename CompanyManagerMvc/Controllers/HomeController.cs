@@ -26,6 +26,7 @@ namespace CompanyManagerMvc.Controllers
             var highestSalary = await employeeService.GetHighestSalaryAsync();
             var lowestSalary = await employeeService.GetLowestSalaryAsync();
             var totalSalary = await employeeService.GetTotalSalaryAsync();
+            var departmentStatistics = await departmentService.GetEmployeeCountByDepartmentAsync();
 
             var model = new HomeViewModel();
             model.Cards.Add(new DashboardCardViewModel
@@ -50,6 +51,7 @@ namespace CompanyManagerMvc.Controllers
             model.HighestSalary= highestSalary;
             model.LowestSalary= lowestSalary;
             model.TotalSalary= totalSalary;
+            model.DepartmentStatistics = departmentStatistics;
             return View(model);
   
         }

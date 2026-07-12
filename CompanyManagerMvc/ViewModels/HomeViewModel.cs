@@ -1,4 +1,6 @@
-﻿namespace CompanyManagerMvc.ViewModels
+﻿using CompanyManager.Core.Models;
+
+namespace CompanyManagerMvc.ViewModels
 {
     public class HomeViewModel
     {
@@ -9,5 +11,7 @@
         public decimal LowestSalary { get; set; }
 
         public decimal TotalSalary { get; set; }
+        public List<DepartmentEmployeeCount> DepartmentStatistics { get; set; }
+    = new();
     }
 }

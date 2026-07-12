@@ -20,7 +20,7 @@ namespace CompanyManager.Infrastructure.Repositories
         }
         public async Task<Department?> GetDepartmentByIdAsync(int id)
         {
-            return await context.Departments.Include(x=>x.Employees).FirstOrDefaultAsync(x => x.Id == id);
+            return await context.Departments.Include(x => x.Employees).FirstOrDefaultAsync(x => x.Id == id);
         }
         public async Task<int> GetCountAsync()
         {
@@ -57,6 +57,17 @@ namespace CompanyManager.Infrastructure.Repositories
         {
             context.Departments.Update(department);
             await context.SaveChangesAsync();
+        }
+        public Task<List<DepartmentEmployeeCount>>
+    GetEmployeeCountByDepartmentAsync()
+        {
+            return context.Departments
+                .Select(d => new DepartmentEmployeeCount
+                {
+                    DepartmentName = d.Name,
+                    EmployeeCount = d.Employees.Count
+                })
+                .ToListAsync();
         }
 
     }

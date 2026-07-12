@@ -96,5 +96,74 @@
         </div>
 
     </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-lg-8">
+
+            <div class="card shadow border-0">
+
+                <div class="card-body p-4">
+
+                    <h4 class="text-center mb-4">
+                        <i class="bi bi-bar-chart"></i>
+                        Employees by Department
+                    </h4>
+
+                    <div style="height: 350px;">
+                        <canvas id="departmentChart"></canvas>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 
 </div>
+@section Scripts
+{
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const departmentLabels = @Html.Raw(
+                    System.Text.Json.JsonSerializer.Serialize(
+                            Model.DepartmentStatistics
+                                    .Select(x => x.DepartmentName)));
+
+    const employeeCounts = @Html.Raw(
+                System.Text.Json.JsonSerializer.Serialize(
+                        Model.DepartmentStatistics
+                                .Select(x => x.EmployeeCount)));
+
+    const chartElement =
+        document.getElementById('departmentChart');
+
+        new Chart(chartElement, {
+            type: 'bar',
+
+            data: {
+                labels: departmentLabels,
+
+                datasets: [{
+                    label: 'Employees',
+                    data: employeeCounts,
+                    borderWidth: 1
+                }]
+            },
+
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        ticks: {
+                            precision: 0
+                        }
+                    }
+                }
+            }
+        });
+    </script>
+}

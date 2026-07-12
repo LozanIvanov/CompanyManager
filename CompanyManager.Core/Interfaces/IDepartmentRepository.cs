@@ -21,5 +21,6 @@ namespace CompanyManager.Core.Interfaces
         Task UpdateAsync(Department department);
 
         Task DeleteAsync(Department department);
+        Task<List<DepartmentEmployeeCount>> GetEmployeeCountByDepartmentAsync();
     }
 }
