@@ -11,11 +11,17 @@ public class EmployeeController : Controller
 {
     private readonly EmployeeService service;
     private readonly DepartmentService departmentService;
+    private readonly ILogger<EmployeeController> logger;
 
-    public EmployeeController(EmployeeService service, DepartmentService departmentService)
+    public EmployeeController(
+        EmployeeService service,
+        DepartmentService departmentService,
+
+        ILogger<EmployeeController> logger)
     {
         this.service = service;
         this.departmentService = departmentService;
+        this.logger = logger;
     }
 
     public async Task<IActionResult> Index(
@@ -71,16 +77,24 @@ public class EmployeeController : Controller
     }
     [Authorize(Roles = "Admin")]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(EmployeeFormViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
             viewModel.Departments =
                 await departmentService.GetAllDepartmentAsync();
+            logger.LogWarning(
+              "Invalid employee create attempt by user {User}",
+               User.Identity?.Name);
 
             return View(viewModel);
         }
         await service.AddEmployeeAsync(viewModel.Employee);
+        logger.LogInformation(
+           "Employee {EmployeeName} was created by {User}",
+           viewModel.Employee.Name,
+           User.Identity?.Name);
         TempData["Success"] = "Employee created successfully.";
         return RedirectToAction("Index");
     }
@@ -91,15 +105,34 @@ public class EmployeeController : Controller
         var employee = await service.GetEmployeeByIdAsync(id);
         if (employee == null)
         {
+            logger.LogWarning(
+              "Employee with id {EmployeeId} was not found by user {User}",
+              id,
+              User.Identity?.Name);
             return NotFound();
         }
         return View(employee);
     }
     [Authorize(Roles = "Admin")]
     [HttpPost]
+    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(Employee employee)
     {
+        if (!ModelState.IsValid)
+        {
+            logger.LogWarning(
+               "Invalid employee edit attempt for employee {EmployeeId} by {User}",
+               employee.Id,
+               User.Identity?.Name);
+
+            return View(employee);
+        }
+
         await service.UpdateEmployeeAsync(employee);
+        logger.LogInformation(
+            "Employee {EmployeeId} was updated by {User}",
+             employee.Id,
+             User.Identity?.Name);
         TempData["Success"] = "Employee updated successfully.";
         return RedirectToAction("Index");
     }
@@ -121,7 +154,24 @@ public class EmployeeController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
+        var employee = await service.GetEmployeeByIdAsync(id);
+
+        if (employee == null)
+        {
+            logger.LogWarning(
+                "Delete failed. Employee with id {EmployeeId} was not found. User: {User}",
+                id,
+                User.Identity?.Name);
+
+            return NotFound();
+        }
         await service.DeleteEmployeeAsync(id);
+
+        logger.LogInformation(
+            "Employee {EmployeeId} - {EmployeeName} was deleted by {User}",
+            employee.Id,
+            employee.Name,
+            User.Identity?.Name);
         TempData["Success"] = "Employee deleted successfully.";
         return RedirectToAction("Index");
     }
@@ -132,6 +182,10 @@ public class EmployeeController : Controller
 
         if (employee == null)
         {
+            logger.LogWarning(
+        "Employee with id {EmployeeId} was not found by user {User}",
+        id,
+        User.Identity?.Name);
             return NotFound();
         }
 
@@ -178,11 +232,15 @@ public class EmployeeController : Controller
         using var stream = new MemoryStream();
 
         workbook.SaveAs(stream);
-
+        logger.LogInformation(
+           "Employees were exported to Excel by {User}",
+           User.Identity?.Name);
+        var fileName =
+            $"Employees_{DateTime.Now:yyyy-MM-dd}.xlsx";
         return File(
             stream.ToArray(),
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "Employees.xlsx");
+            fileName);
     }
 
 }
